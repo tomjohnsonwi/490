@@ -74,6 +74,7 @@
       // results table
       echo "<table class='center' id='productNameTable'>";
 
+      // Alice's Comment for Testing
       while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         echo "<tr><td>Product Name</td><td><input type='text' id='productName' name='productName' value='" . $row["productname"] . "'></td></tr>";
         echo "<tr><td>Price</td><td><input type='text' id='price' name='price' value='" . $row["price"] . "'></td></tr>";
