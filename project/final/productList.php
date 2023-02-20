@@ -77,6 +77,9 @@
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $productName = test_input($_POST["productName"]);
+        $price = test_input($_POST["price"]);
+        $category = test_input($_POST["category"]);
+        $id = test_input($_POST["id"]);
       }
 
       function test_input($data) {
@@ -102,33 +105,22 @@
       mysqli_close($dbc);
 
       // add new record if admin == 1
-      if ("admin" == 1) {
-        echo "<form><table class='center' id='productNameTable'>";
-        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
+      // if ("admin" == 1) {
+        echo "<form method='post' action='productAdd.php'><table class='center' id='productNameTable'>";
+        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Description</th><th>Category</th><th>Add</th>";
         echo "<tr><td>" 
-          . "<input type='text' id='productName' name='productName' value='" . $_GET['productName'] . "'></td>"
-          . "<td><input type='text' id='price' name='price' value='" . $_GET['price'] . "'></td>"
-          . "<td><input type='text' id='quantity' name='quantity' value='" . $_GET['quantity'] . "'></td>"
-          . "<td><input type='text' id='description' name='description' value='" . $_GET['description'] . "'></td>"
-          . "<td><select id='category' name='category' value='" . $_GET['category'] . "'></option><option value='games'>games</option><option value='consoles'>consoles</option><option value='equipment'>equipment</option></td>"
-          . "<td><form id='resultsForm' method='post' action='productEdit.php'>"
-          . "<input name='prod_id' type='hidden' value='" 
-          . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form>"
-          . "<form id='resultsForm' method='post' action='productEdit.php'>"
-          . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
-          . "<button type='submit' class='addToCart'>Delete</button></form> </td></tr>"
-          . "</table><button type='submit' class='addToCart'>Add</button></form>";
-          // if (!isempty($_GET['productName']) && !isempty($_GET['price']) && !isempty($_GET['quantity']) && !isempty($_GET['description']) && !isempty($_GET['category'])) {
-          //   $sql = "INSERT INTO products ($_GET['productName'], $_GET['price'], $_GET['quantity'], $_GET['description'], $_GET['category'])
-          //   VALUES ($_GET['productName'], $_GET['price'], $_GET['quantity'], $_GET['description'], $_GET['category'])";
-    
-          //   if ($conn->query($sql) === TRUE) {
-          //     echo "New record created successfully";
-          //   } else {
-          //     echo "Error: " . $sql . "<br>" . $conn->error;
-          //   }
-          // }
-      }
+          . "<input type='text' id='productName' name='productName'></td>"
+          . "<td>$<input type='text' id='price' name='price'></td>"
+          . "<td><input type='text' id='quantity' name='quantity'></td>"
+          . "<td><input type='text' id='description' name='description'></td>"
+          . "<td><select id='category' name='category'></option>
+              <option value='games'>games</option>
+              <option value='consoles'>consoles</option>
+              <option value='equipment'>equipment</option>
+            </td>"
+          . "<td><button type='submit' class='addToCart'>Add</button></form></td></tr>"
+          . "</table>";
+      // }
 
       // search price results
       require_once('mysqli_connect.php');
@@ -212,7 +204,13 @@
         . "</td><td>" . $row["quantity"] 
         . "</td><td>" . $row["category"] 
         . "</td><td>" . $row["description"]  
-        . "<td><form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form> <form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Delete</button></form> </td></tr>";
+        . "<td><form id='resultsForm' method='post' action='productEdit.php'>
+        <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+        <button type='submit' class='addToCart'>Edit</button></form> 
+        <form id='resultsForm' method='post' action='productDelete.php'>
+        <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+        <button type='submit' class='addToCart'>Delete</button></form> 
+        </td></tr>";
       }
       echo "</table>";
     ?>
