@@ -94,6 +94,7 @@
       
       // query
       $query = "SELECT * FROM products";
+
     
       // result
       $result = mysqli_query($dbc, $query);
@@ -116,7 +117,7 @@
           . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form>"
           . "<form id='resultsForm' method='post' action='productEdit.php'>"
           . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
-          . "<button type='submit' class='addToCart'>Delete</button></form> </td></tr>"
+          . "<button type='submit' class='productDelete'>Delete</button></form> </td></tr>"
           . "</table><button type='submit' class='addToCart'>Add</button></form>";
           // if (!isempty($_GET['productName']) && !isempty($_GET['price']) && !isempty($_GET['quantity']) && !isempty($_GET['description']) && !isempty($_GET['category'])) {
           //   $sql = "INSERT INTO products ($_GET['productName'], $_GET['price'], $_GET['quantity'], $_GET['description'], $_GET['category'])
@@ -131,10 +132,15 @@
       }
 
       // search price results
+      // Need to test this with TOM
       require_once('mysqli_connect.php');
-      if (!empty($minPrice) && !empty($maxPrice)) {
-        // query
-        $query = "SELECT * FROM products WHERE price BETWEEN '$minPrice' AND '$maxPrice'";
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $minPrice = test_input($_POST["minPrice"]);
+        $maxPrice = test_input($_POST["maxPrice"]);
+      
+      
+      // query
+      $query = "SELECT * FROM products WHERE price >= $minPrice AND price <= $maxPrice";
       
         // result
         $result = mysqli_query($dbc, $query);
@@ -212,7 +218,11 @@
         . "</td><td>" . $row["quantity"] 
         . "</td><td>" . $row["category"] 
         . "</td><td>" . $row["description"]  
-        . "<td><form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form> <form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Delete</button></form> </td></tr>";
+        . "<td><form id='resultsForm' method='post' 
+        action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+        <button type='submit' class='addToCart'>Edit</button></form> 
+        <form id='resultsForm' method='post' action='productDelete.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Delete</button></form> 
+        </td></tr>";
       }
       echo "</table>";
     ?>
