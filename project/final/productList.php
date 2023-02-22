@@ -102,10 +102,17 @@
       $result = mysqli_query($dbc, $query);
 
       // close db
-      mysqli_close($dbc);
+      // mysqli_close($dbc);
+
+      $adminquery = "SELECT * FROM `users` WHERE admin='1'";
+      $adminresult = mysqli_query($dbc, $adminquery);
+      // $admin = $_POST['admin'];
+
+      $row = mysqli_fetch_assoc($adminresult);
 
       // add new record if admin == 1
-      // if ("admin" == 1) {
+      if ($_COOKIE['username'] == 'mu') {
+      // if ($row['admin'] == '1') {
         echo "<form method='post' action='productAdd.php'><table class='center' id='productNameTable'>";
         echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Description</th><th>Category</th><th>Add</th>";
         echo "<tr><td>" 
@@ -120,7 +127,7 @@
             </td>"
           . "<td><button type='submit' class='addToCart'>Add</button></form></td></tr>"
           . "</table>";
-      // }
+      }
 
       // search price results
       require_once('mysqli_connect.php');
@@ -194,25 +201,46 @@
       //   echo "<h1 class='center'>You did not enter a category</h1>";
       // }
 
-      // results table
-      echo "<table class='center' id='productNameTable'>";
-      echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
-      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo "<tr><td>" 
-        . $row["productname"] 
-        . "</td><td>" . $row["price"] 
-        . "</td><td>" . $row["quantity"] 
-        . "</td><td>" . $row["category"] 
-        . "</td><td>" . $row["description"]  
-        . "<td><form id='resultsForm' method='post' action='productEdit.php'>
-        <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
-        <button type='submit' class='addToCart'>Edit</button></form> 
-        <form id='resultsForm' method='post' action='productDelete.php'>
-        <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
-        <button type='submit' class='addToCart'>Delete</button></form> 
-        </td></tr>";
+      if ($_COOKIE['username'] == 'mu') {
+        // results table
+        echo "<table class='center' id='productNameTable'>";
+        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          echo "<tr><td>" 
+          . $row["productname"] 
+          . "</td><td>" . $row["price"] 
+          . "</td><td>" . $row["quantity"] 
+          . "</td><td>" . $row["category"] 
+          . "</td><td>" . $row["description"]  
+          . "<td><form id='resultsForm' method='post' action='productEdit.php'>
+          <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+          <button type='submit' class='addToCart'>Edit</button></form> 
+          <form id='resultsForm' method='post' action='productDelete.php'>
+          <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+          <button type='submit' class='addToCart'>Delete</button></form> 
+          </td></tr>";
+        }
+        echo "</table>";
       }
-      echo "</table>";
+      else {
+        // results table
+        echo "<table class='center' id='productNameTable'>";
+        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          echo "<tr><td>" 
+          . $row["productname"] 
+          . "</td><td>" . $row["price"] 
+          . "</td><td>" . $row["quantity"] 
+          . "</td><td>" . $row["category"] 
+          . "</td><td>" . $row["description"]  
+          . "<td> 
+          <form id='resultsForm' method='post' action='addToCart.php'>
+          <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+          <button type='submit' class='addToCart'>Add</button></form> 
+          </td></tr>";
+        }
+        echo "</table>";
+      }
     ?>
   </body>
 </html>
