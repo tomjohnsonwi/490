@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Product Name Search Results</title>
+    <title>Product Search</title>
   </head>
   <body>
     <!-- Header -->
@@ -101,18 +101,8 @@
       // result
       $result = mysqli_query($dbc, $query);
 
-      // close db
-      // mysqli_close($dbc);
-
-      $adminquery = "SELECT * FROM `users` WHERE admin='1'";
-      $adminresult = mysqli_query($dbc, $adminquery);
-      // $admin = $_POST['admin'];
-
-      $row = mysqli_fetch_assoc($adminresult);
-
-      // add new record if admin == 1
+      // add new record if admin == mu
       if ($_COOKIE['username'] == 'mu') {
-      // if ($row['admin'] == '1') {
         echo "<form method='post' action='productAdd.php'><table class='center' id='productNameTable'>";
         echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Description</th><th>Category</th><th>Add</th>";
         echo "<tr><td>" 
@@ -138,9 +128,6 @@
         // result
         $result = mysqli_query($dbc, $query);
 
-        // close db
-        // mysqli_close($dbc);
-
         // results table
         echo "<table class='center' id='productNameTable'>";
         echo "<th>Price</th><th>Product Name</th><th>Quantity</th><th>Category</th><th>Description</th><th>Add to Cart</th>";
@@ -158,12 +145,6 @@
       if (!empty($productName)) {
         // query
         $query = "SELECT * FROM products WHERE productname LIKE '%$productName%'";
-      
-        // result
-        // $result = mysqli_query($dbc, $query);
-
-        // close db
-        // mysqli_close($dbc);
 
         // results table
         echo "<table class='center' id='productNameTable'>";
@@ -182,12 +163,6 @@
       if (!empty($category)) {
         // query
         $query = "SELECT * FROM products WHERE category LIKE '%$category%'";
-      
-        // result
-        // $result = mysqli_query($dbc, $query);
-
-        // close db
-        // mysqli_close($dbc);
 
         // results table
         echo "<table class='center' id='productNameTable'>";
@@ -197,10 +172,8 @@
         }
         echo "</table>";
       }
-      // else {
-      //   echo "<h1 class='center'>You did not enter a category</h1>";
-      // }
 
+      // admin view
       if ($_COOKIE['username'] == 'mu') {
         // results table
         echo "<table class='center' id='productNameTable'>";
@@ -222,10 +195,11 @@
         }
         echo "</table>";
       }
+      // guest view
       else {
         // results table
         echo "<table class='center' id='productNameTable'>";
-        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
+        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Add</th>";
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
           echo "<tr><td>" 
           . $row["productname"] 
@@ -234,13 +208,16 @@
           . "</td><td>" . $row["category"] 
           . "</td><td>" . $row["description"]  
           . "<td> 
-          <form id='resultsForm' method='post' action='addToCart.php'>
+          <form id='resultsForm' method='post' action='cart.php'>
           <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
           <button type='submit' class='addToCart'>Add</button></form> 
           </td></tr>";
         }
         echo "</table>";
       }
+
+      // close db
+      mysqli_close($dbc);
     ?>
   </body>
 </html>

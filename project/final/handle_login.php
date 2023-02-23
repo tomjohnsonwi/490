@@ -14,24 +14,15 @@ $guestquery = "SELECT * from users WHERE username = 'guest' AND pw = 'guest'";
 $result = mysqli_query($dbc, $query);
 $guestresult = mysqli_query($dbc, $guestquery);
 
-// get admin boolean
-
 // user matches db row
 if (mysqli_num_rows($result) == 1) {
-  // set cookie before echo
-  
-  // TODO redirect to search page if not admin
-  if ($username == 'mu' && $password == 'pw') {
-    setcookie('username', $username);
-    header("Location: productList.php");
-    exit();
-  }
+  // set cookie
   setcookie('username', $username);
   header("Location: productList.php");
   exit();
 }
 else if (mysqli_num_rows($guestresult) == 1) {
-  // set cookie before echo
+  // set cookie
   setcookie('username', 'guest');
   header("Location: productList.php");
   exit();
