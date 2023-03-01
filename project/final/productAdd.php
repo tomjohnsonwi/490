@@ -49,18 +49,29 @@
   $quantity = $_POST['quantity'];
   $description = $_POST['description'];
 
-  // Execute the insert query to add entry to the database
-  $query = "INSERT INTO `products`(`productname`, `category`, `price`, `quantity`, `description`) VALUES ('" . $productName . "', '" . $category . "', '" . $price . "', '" . $quantity . "', '" . $description . "')";
-  $result = mysqli_query($dbc, $query);
+  // fields have to be populated
+  if (!empty($price) && !empty($quantity) && !empty($productName) && !empty($category) && !empty($description)) {
 
-  echo $result;
-  
-  if ($result) {
-      // The product was successfully updated
-      echo "<div class='center'><h1>Product: " . $productName . "<br>Category: " . $category . "<br>Price: $" . $price . "<br>Quantity: " . $quantity . "<br>Description: " . $description . "<br><br>" . " Added Successfully.</h1></div>";
-  } else {
-      // There was an error while updating the product
-      echo "Error adding product.";
+    // validation, price and quantity have to be type int
+    if (is_numeric($price) && is_numeric($quantity)) {
+      // Execute the insert query to add entry to the database
+      $query = "INSERT INTO `products`(`productname`, `category`, `price`, `quantity`, `description`) VALUES ('" . $productName . "', '" . $category . "', '" . $price . "', '" . $quantity . "', '" . $description . "')";
+      $result = mysqli_query($dbc, $query);
+
+      if ($result) {
+        // The product was successfully updated
+        echo "<div class='center'><h1>Product: " . $productName . "<br>Category: " . $category . "<br>Price: $" . $price . "<br>Quantity: " . $quantity . "<br>Description: " . $description . "<br><br>" . " Added Successfully.</h1></div>";
+      } else {
+        // There was an error while updating the product
+        echo "Error adding product.";
+      }
+    }
+    else {
+      echo "<div class='center'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
+    }
+  }
+  else {
+    echo "<div class='center'><h1>One or more of your fields is empty</h1></div>";
   }
 
   // Close the database connection
