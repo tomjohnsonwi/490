@@ -40,39 +40,6 @@
       </div>
     </nav>
 
-    <div class="form-div">
-      <form action="productList.php" method="POST">
-        <!-- Product Name -->
-        <label for="productName">Search by name:</label>
-        <input type="text" id="productName" name="productName">
-        <input id="SubmitName" type="submit">
-        <br><br>
-
-        <!-- Price -->
-        <label for="price">Search by price, between:</label>
-        <span>$ </span><input class="inputselect" type="number" id="minPrice" name="minPrice" min="0" max="500" step="50" onkeydown="return false">
-        and $
-        <input type="number" class="inputselect" id="maxPrice" name="maxPrice" min="0" max="500" step="50" onkeydown="return false">
-        <br><br>
-        <input id="SubmitPrice" type="submit">
-        <br><br>
-        <!-- Category -->
-        <label for="category">Search by category:</label>
-        <select name="category" id="category">
-          <?php
-            // category array
-            $category = array('games', 'consoles', 'equipment');
-            // populate $category options
-            foreach($category as $item) {
-              echo "<option value='$item'>$item</option>";
-            }
-          ?>
-        </select>
-        <input id="SubmitCategory" type="submit">
-      </form>
-
-    </div>
-
     <?php
       require_once('mysqli_connect.php');
 
@@ -97,7 +64,12 @@
         echo "Failed to connect to MySQL: " . mysqli_connect_error();
         exit();
       }
-      if (!empty($minPrice) && !empty($maxPrice)) {
+
+      echo "<h1 class='center'>Minimum Price: " . $minPrice . "</h1>";
+      echo "<h1 class='center'>Maximum Price: " . $maxPrice . "</h1>";
+
+      if (!empty($minPrice) || !empty($maxPrice)) {
+
         // query
         $query = "SELECT * FROM products WHERE price BETWEEN '$minPrice' AND '$maxPrice'";
       
