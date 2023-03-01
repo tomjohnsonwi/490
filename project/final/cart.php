@@ -74,40 +74,28 @@
         // Sanitize the ID value to prevent SQL injection
         $id = mysqli_real_escape_string($dbc, $id);
 
+        // insert
         $query = "INSERT INTO `cart`(
           `username`, 
           `productname`, 
           `category`, 
           `description`, 
-          `price`
+          `price`,
+          `productid`
           ) VALUES (
             '" . $_COOKIE['username'] . 
             "', '" . $productName . 
             "', '" . $category . 
             "', '" . $description . 
             "', '" . $price . 
+            "', '" . $id .
           "')";
         $result = mysqli_query($dbc, $query);
 
-        // add to cart from productList.php
-        // $query = "insert into cart
-        //         (
-        //           username,
-        //           productname,
-        //           category, 
-        //           description, 
-        //           price
-        //         )
-        //         values (
-        //           ".$_COOKIE['username'].",
-        //           $productName,
-        //           $category,
-        //           $description,
-        //           $price
-        //         )
-        //         from users, product where id = $id";
+        // select
+        $select = "select * from products where id = $id";
 
-        // $result = mysqli_query($dbc, $query);
+        $result2 = mysqli_query($dbc, $select);
 
         if ($result) {
             // The product was successfully added to cart
@@ -124,7 +112,7 @@
       // cart table
       echo "<table class='center' id='productNameTable'>";
       echo "<th>Product Name</th><th>Price</th><th>Category</th><th>Description</th>";
-      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+      while($row = mysqli_fetch_array($result2, MYSQLI_ASSOC)) {
         echo "<tr><td>" 
         . $row["productname"] 
         . "</td><td>" . $row["price"]
