@@ -88,6 +88,11 @@ img {
 td {
   border: 1px solid rgb(168, 168, 168);
 }
+th {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
 td, th {
   color: white;
   padding-left: 4px;
@@ -113,6 +118,13 @@ ul {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+.coloredbox {
+  float: left;
+  margin-right: 20px;
+  width: 100px;
+  height: 100px;
+  background: red;
 }
 .error {
   background-color: #ff0000;
@@ -153,6 +165,9 @@ ul {
   text-decoration: none;
   font-family: 'Dongle', sans-serif;
   font-size: 18pt;
+}
+.listcenter {
+  margin-left: 30%;
 }
 .login {
   background-color: rgb(25, 141, 2);
