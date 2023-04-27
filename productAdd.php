@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
+    <div class="green center black"><h1>GameThief</h1></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -67,11 +68,11 @@
       }
     }
     else {
-      echo "<div class='center'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
+      echo "<div class='center white'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
     }
   }
   else {
-    echo "<div class='center'><h1>One or more of your fields is empty</h1></div>";
+    echo "<div class='center white'><h1>One or more of your fields is empty</h1></div>";
   }
 
   // Close the database connection

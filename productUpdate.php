@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Edit Product</title>
+    <title>Product Update Page</title>
   </head>
   <body>
     <!-- Header -->
@@ -31,7 +31,7 @@
               <!-- Link -->
             <a class="list-anchor" href="logout.php">Logout</a>
           </li>
-          <li id="Search"
+          <li id="Logout"
               class="col nav-item">
               <!-- Link -->
             <a class="list-anchor" href="productList.php">Search</a>
@@ -44,11 +44,16 @@
       require_once('mysqli_connect.php');
 
       // sanitize
-      $productName = $price = $category = $description = $prod_id = "";
+      $productName = $price = $category = $quantity = $description = "";
       $break = '<br>';
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $prod_id = test_input($_POST["prod_id"]);
+        $id = test_input($_POST["prod_id"]);
+        $price = test_input($_POST["price"]);
+        $category = test_input($_POST["category"]);
+        $productName = test_input($_POST["productName"]);
+        $quantity = test_input($_POST["quantity"]);
+        $description = test_input($_POST["description"]);
       }
 
       function test_input($data) {
@@ -65,28 +70,15 @@
       }
       
       // query
-      $query = "SELECT * FROM products WHERE id = '" . $prod_id . "'";
-    
+      $query = "UPDATE products SET productname='$productName', price='$price', quantity='$quantity', category='$category', description='$description' WHERE id='$id'";
+
+      echo "<h1>" . $query . "</h1>";
+
       // result
       $result = mysqli_query($dbc, $query);
 
       // close db
       mysqli_close($dbc);
-
-      // results table
-      echo "<table class='center' id='productNameTable'>";
-
-      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        // form begins here
-        echo "<tr><td><form action='productUpdate.php' method='post'>Product Name</td><td><input type='text' id='productName' name='productName' value='" . $row["productname"] . "'></td></tr>";
-        echo "<tr><td>Price</td><td><input type='text' id='price' name='price' value='" . $row["price"] . "'></td></tr>";
-        echo "<tr><td>Quantity</td><td><input type='text' id='quantity' name='quantity' value='" . $row["quantity"] . "'></td></tr>";
-        echo "<tr><td>Category</td><td><select id='category' name='category' value='" . $row["category"] . " <option value='" . $row["category"] . "'>" . $row["category"] . "</option><option value='games'>games</option><option value='consoles'>consoles</option><option value='equipment'>equipment</option></td></tr>";
-        echo "<tr><td>Description</td><td><input type='text' id='description' name='description' value='" . $row["description"] . "'></td></tr>";
-        echo "<input type='hidden' name='prod_id' value='" . $row["id"] . "' />";
-      }
-      // form ends, submit
-      echo "</table> <div class='center'><input id='Submit' type='submit' method='POST'></div></form>";
     ?>
   </body>
 </html>

@@ -15,11 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Add Product Page</title>
+    <title>Deletion Page</title>
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
+    <div class="green center black"><h1>GameThief</h1></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Delete Product Page</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -43,35 +44,27 @@
 <?php
   require_once('mysqli_connect.php');
 
-  $productName = $_POST['productName'];
-  $category = $_POST['category'];
-  $price = $_POST['price'];
-  $quantity = $_POST['quantity'];
-  $description = $_POST['description'];
+  // Get the ID of the product to delete
+  if (isset($_POST['prod_id'])) {
+    $id = $_POST['prod_id'];
 
-  // fields have to be populated
-  if (!empty($price) && !empty($quantity) && !empty($productName) && !empty($category) && !empty($description)) {
+    // Sanitize the ID value to prevent SQL injection
+    $id = mysqli_real_escape_string($dbc, $id);
 
-    // validation, price and quantity have to be type int
-    if (is_numeric($price) && is_numeric($quantity)) {
-      // Execute the insert query to add entry to the database
-      $query = "INSERT INTO `products`(`productname`, `category`, `price`, `quantity`, `description`) VALUES ('" . $productName . "', '" . $category . "', '" . $price . "', '" . $quantity . "', '" . $description . "')";
-      $result = mysqli_query($dbc, $query);
+    // Execute the DELETE query to remove the product from the database
+    $query = "DELETE FROM products WHERE id = '$id'";
+    $result = mysqli_query($dbc, $query);
 
-      if ($result) {
-        // The product was successfully updated
-        echo "<div class='center'><h1>Product: " . $productName . "<br>Category: " . $category . "<br>Price: $" . $price . "<br>Quantity: " . $quantity . "<br>Description: " . $description . "<br><br>" . " Added Successfully.</h1></div>";
-      } else {
-        // There was an error while updating the product
-        echo "Error adding product.";
-      }
+    if ($result) {
+        // The product was successfully deleted
+        echo "<div class='center'><h1 class='white'>Product " . $id . " deleted.</h1></div>";
+    } else {
+        // There was an error while deleting the product
+        echo "<div class='center'><h1 class='white'>Error deleting product.</h1></div>";
     }
-    else {
-      echo "<div class='center'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
-    }
-  }
-  else {
-    echo "<div class='center'><h1>One or more of your fields is empty</h1></div>";
+  } else {
+    // No ID was provided in the URL
+    echo "<div class='center white'>Invalid request.</h1></div>";
   }
 
   // Close the database connection
