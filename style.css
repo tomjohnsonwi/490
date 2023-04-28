@@ -72,18 +72,24 @@ body nav div ul li a:hover {
 body {
   background-color: rgb(0, 0, 0);
 }
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
 h1 {
   /* margin-top: 40px; */
   /* color: white; */
   font-family: 'Mukta', sans-serif;
   font-size: 30pt;
 }
-img {
-  float: right;
-  padding: 10px;
-  border-radius: 10px;
-  width: 16em;
-  height: 14em;
+h2 {
+  font-family: 'Mukta', sans-serif;
+  font-size: 20pt;
 }
 td {
   border: 1px solid rgb(168, 168, 168);
@@ -128,6 +134,11 @@ ul {
   width: 100px;
   height: 100px;
   background: red;
+}
+.dongle {
+  font-family: 'Dongle', sans-serif;
+  font-size: 20pt;
+  color: white;
 }
 .error {
   background-color: #ff0000;
@@ -187,6 +198,9 @@ ul {
   border-radius: 5px;
   padding: 7px;
   font-family: 'Mukta', sans-serif;
+}
+.logo {
+  height: 50px;
 }
 .main-div {
   border: 1px solid white;
@@ -299,6 +313,7 @@ input:focus, input:hover {
   cursor: pointer;
 }
 .addToCart {
+  color:rgb(241, 147, 5);
   padding-top:5px;
   font-family: 'Dongle', sans-serif;
   font-size: 20pt !important;

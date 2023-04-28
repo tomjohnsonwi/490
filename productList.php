@@ -19,8 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <div class="green center black"><h1>GameThief</h1></div>
-    <!-- <img src="../css/green.jpg" alt="Logo"> -->
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    
     <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, Search Our Store!</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">

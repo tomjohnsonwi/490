@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?></h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?></h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -72,7 +73,12 @@
       // query
       $query = "UPDATE products SET productname='$productName', price='$price', quantity='$quantity', category='$category', description='$description' WHERE id='$id'";
 
-      echo "<h1>" . $query . "</h1>";
+      echo "<br><h1 class='center white'>Product Updated</h1><br><br>"
+        . "<div class='listcenter white'><h2>" . $productName . "<br>"
+        . "Price: $" . $price . "<br>"
+        . "In stock: " . $quantity . "<br>"
+        . "Category: " . $category . "<br>"
+        . "Description: " . $description . "<h2></div>";
 
       // result
       $result = mysqli_query($dbc, $query);
