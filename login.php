@@ -19,6 +19,7 @@
   </head>
   <body>
     <!-- Navbar -->
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
         <!-- List -->

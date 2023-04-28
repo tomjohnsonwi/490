@@ -19,7 +19,7 @@
   </head>
   <body>
     <!-- Header -->
-    <div class="green center black"><h1>GameThief</h1></div>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
     <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
@@ -61,7 +61,12 @@
 
       if ($result) {
         // The product was successfully updated
-        echo "<div class='center'><h1>Product: " . $productName . "<br>Category: " . $category . "<br>Price: $" . $price . "<br>Quantity: " . $quantity . "<br>Description: " . $description . "<br><br>" . " Added Successfully.</h1></div>";
+        echo "<br><h1 class='center white'>Product Added Successfully</h1><br><br>"
+        . "<div class='listcenter white'><h2>" . $productName . "<br>"
+        . "Price: $" . $price . "<br>"
+        . "In stock: " . $quantity . "<br>"
+        . "Category: " . $category . "<br>"
+        . "Description: " . $description . "<h2></div>";
       } else {
         // There was an error while updating the product
         echo "Error adding product.";
