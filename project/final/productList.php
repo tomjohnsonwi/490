@@ -19,7 +19,9 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, Search Our Store!</h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, Search Our Store!</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -129,10 +131,10 @@
           . "In stock: " . $row["quantity"] . "<br>"
           . "Category: " . $row["category"] . "<br>"
           . "Description: " . $row["description"] . "<br>"
-          . "<form id='resultsForm' method='post' action='productEdit.php'>
+          . "<form id='resultsForm' class='inline' method='post' action='productEdit.php'>
           <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
           <button type='submit' class='addToCart'>Edit</button></form> 
-          <form id='resultsForm' method='post' action='productDelete.php'>
+          <form id='resultsForm' class='inline' method='post' action='productDelete.php'>
           <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
           <button type='submit' class='addToCart'>Delete</button></form></div>";
         }
@@ -142,13 +144,13 @@
         // results table
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
           echo "<br><div class='listcenter'><span class='coloredbox'></span><form method='POST' action='cart.php'>"
-            . "<input   type='hidden' id='productname'  name='productname'  value='"  . $row["productname"]   . "'>" . $row["productname"] . "<br>" 
-            . "Price: $<input  type='hidden' id='price'        name='price'        value='"  . $row["price"]         . "'>" . $row["price"] . "<br>" 
-            . "In stock: " . $row["quantity"] . "<br>" 
-            . "Category: <input  type='hidden' id='category'     name='category'     value='"  . $row["category"]      . "'>" . $row["category"] . "<br>" 
-            . "Description: <input  type='hidden' id='description'  name='description'  value='"  . $row["description"]   . "'>" . $row["description"] . "<br>"  
-            . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
-            . "<button type='submit' class='addToCart'>Add</button></form></div>";
+          . "<input   type='hidden' id='productname'  name='productname'  value='"  . $row["productname"]   . "'>" . $row["productname"] . "<br>" 
+          . "Price: $<input  type='hidden' id='price'        name='price'        value='"  . $row["price"]         . "'>" . $row["price"] . "<br>" 
+          . "In stock: " . $row["quantity"] . "<br>" 
+          . "Category: <input  type='hidden' id='category'     name='category'     value='"  . $row["category"]      . "'>" . $row["category"] . "<br>" 
+          . "Description: <input  type='hidden' id='description'  name='description'  value='"  . $row["description"]   . "'>" . $row["description"] . "<br>"  
+          . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
+          . "<button type='submit' class='addToCart'>Add</button></form></div>";
         }
       }
 

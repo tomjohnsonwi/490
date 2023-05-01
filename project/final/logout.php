@@ -18,7 +18,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Logged out</h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Logged out</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -35,7 +36,7 @@
     </nav>
 
     <div class="center">
-      <h1>You have successfully logged out, sorry to see you go</h1>
+      <h1 class="white">You have successfully logged out, sorry to see you go</h1>
       <br><br>
       <button class="login" type="button" onclick="location.href='login.php';">Login</button>
     </div>

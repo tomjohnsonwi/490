@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, Ready to Check Out?</h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, Ready to Check Out?</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -99,14 +100,14 @@
 
         if ($result) {
             // The product was successfully added to cart
-            echo "<div class='center'><h1>Product " . $id . " added.</h1></div>";
+            echo "<div class='center white'><h1>Product " . $id . " added.</h1></div>";
         } else {
             // There was an error while adding the product
-            echo "<div class='center'><h1>Error adding product.<br><br>Result: $result<br><br>$query</h1></div>";
+            echo "<div class='center white'><h1>Error adding product.<br><br>Result: $result<br><br>$query</h1></div>";
         }
       } else {
         // No ID was provided in the URL
-        echo "<div class='center'>Invalid request.</h1></div>";
+        echo "<div class='center white'>Invalid request.</h1></div>";
       }
 
       // cart table

@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?></h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?></h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">

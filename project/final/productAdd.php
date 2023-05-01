@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, welcome to the Add Product Page</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -60,18 +61,23 @@
 
       if ($result) {
         // The product was successfully updated
-        echo "<div class='center'><h1>Product: " . $productName . "<br>Category: " . $category . "<br>Price: $" . $price . "<br>Quantity: " . $quantity . "<br>Description: " . $description . "<br><br>" . " Added Successfully.</h1></div>";
+        echo "<br><h1 class='center white'>Product Added Successfully</h1><br><br>"
+        . "<div class='listcenter white'><h2>" . $productName . "<br>"
+        . "Price: $" . $price . "<br>"
+        . "In stock: " . $quantity . "<br>"
+        . "Category: " . $category . "<br>"
+        . "Description: " . $description . "<h2></div>";
       } else {
         // There was an error while updating the product
         echo "Error adding product.";
       }
     }
     else {
-      echo "<div class='center'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
+      echo "<div class='center white'><h1>Invalid types of data in price and/or quantity fields</h1></div>";
     }
   }
   else {
-    echo "<div class='center'><h1>One or more of your fields is empty</h1></div>";
+    echo "<div class='center white'><h1>One or more of your fields is empty</h1></div>";
   }
 
   // Close the database connection
