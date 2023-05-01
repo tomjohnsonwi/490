@@ -15,11 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Product Name Search Results</title>
+    <title>Edit Product</title>
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?></h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?></h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -31,6 +32,11 @@
               <!-- Link -->
             <a class="list-anchor" href="logout.php">Logout</a>
           </li>
+          <li id="Search"
+              class="col nav-item">
+              <!-- Link -->
+            <a class="list-anchor" href="productList.php">Search</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -39,7 +45,7 @@
       require_once('mysqli_connect.php');
 
       // sanitize
-      $productName = $price = $category = $prod_id = "";
+      $productName = $price = $category = $description = $prod_id = "";
       $break = '<br>';
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -68,20 +74,19 @@
       // close db
       mysqli_close($dbc);
 
-      // form
-      ?><form action="productUpdate.php">        
-      <?php
       // results table
       echo "<table class='center' id='productNameTable'>";
 
       while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo "<tr><td>Product Name</td><td><input type='text' id='productName' name='productName' value='" . $row["productname"] . "'></td></tr>";
+        // form begins here
+        echo "<tr><td><form action='productUpdate.php' method='post'>Product Name</td><td><input type='text' id='productName' name='productName' value='" . $row["productname"] . "'></td></tr>";
         echo "<tr><td>Price</td><td><input type='text' id='price' name='price' value='" . $row["price"] . "'></td></tr>";
         echo "<tr><td>Quantity</td><td><input type='text' id='quantity' name='quantity' value='" . $row["quantity"] . "'></td></tr>";
         echo "<tr><td>Category</td><td><select id='category' name='category' value='" . $row["category"] . " <option value='" . $row["category"] . "'>" . $row["category"] . "</option><option value='games'>games</option><option value='consoles'>consoles</option><option value='equipment'>equipment</option></td></tr>";
         echo "<tr><td>Description</td><td><input type='text' id='description' name='description' value='" . $row["description"] . "'></td></tr>";
-        echo "<input type='hidden' name='" . $row["id"] . "' />";
+        echo "<input type='hidden' name='prod_id' value='" . $row["id"] . "' />";
       }
+      // form ends, submit
       echo "</table> <div class='center'><input id='Submit' type='submit' method='POST'></div></form>";
     ?>
   </body>

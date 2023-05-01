@@ -8,22 +8,22 @@ $password = mysqli_real_escape_string($dbc, trim($_POST['password']));
 
 // query
 $query = "SELECT * from users WHERE username = '$username' AND pw = SHA2('$password', 224)";
+$guestquery = "SELECT * from users WHERE username = 'guest' AND pw = 'guest'";
   
 // run query
 $result = mysqli_query($dbc, $query);
-
-// get admin boolean
+$guestresult = mysqli_query($dbc, $guestquery);
 
 // user matches db row
 if (mysqli_num_rows($result) == 1) {
-  // set cookie before echo
+  // set cookie
   setcookie('username', $username);
-
-  // TODO redirect to search page if not admin
-  // if ($username == 'mu' && $password == 'pw') {
-  //   header("Location: p.php");
-  //   exit();
-  // }
+  header("Location: productList.php");
+  exit();
+}
+else if (mysqli_num_rows($guestresult) == 1) {
+  // set cookie
+  setcookie('username', 'guest');
   header("Location: productList.php");
   exit();
 }

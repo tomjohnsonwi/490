@@ -19,6 +19,7 @@
   </head>
   <body>
     <!-- Navbar -->
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
         <!-- List -->
@@ -56,6 +57,8 @@
 
     <form action="handle_login.php" method="POST">
       <div class="center">
+        <input id="username" name="username" type="hidden" value="guest">
+        <input id="password" name="password" type="hidden" value="guest">
         <button class="shopasguest" type="submit" name='guest'><h1>Shop as guest</h1></button>
       </div>
     </form>
