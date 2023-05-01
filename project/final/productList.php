@@ -15,11 +15,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dongle&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Product Name Search Results</title>
+    <title>Product Search</title>
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?>, Search Our Store!</h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?>, Search Our Store!</h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -36,22 +38,25 @@
     </nav>
 
     <div class="form-div">
-      <form action="productList.php" method="POST">
-        <!-- Product Name -->
+      <!-- Product Name -->
+      <form action="nameSearch.php" method="POST">
         <label for="productName">Search by name:</label>
         <input type="text" id="productName" name="productName">
         <input id="SubmitName" type="submit">
-        <br><br>
+      </form>
 
-        <!-- Price -->
+      <!-- Price -->
+      <form action="priceSearch.php" method="POST">
         <label for="price">Search by price, between:</label>
         <span>$ </span><input class="inputselect" type="number" id="minPrice" name="minPrice" min="0" max="500" step="50" onkeydown="return false">
         and $
         <input type="number" class="inputselect" id="maxPrice" name="maxPrice" min="0" max="500" step="50" onkeydown="return false">
         <br><br>
         <input id="SubmitPrice" type="submit">
-        <br><br>
-        <!-- Category -->
+      </form>
+
+      <!-- Category -->
+      <form action="categorySearch.php" method="POST">
         <label for="category">Search by category:</label>
         <select name="category" id="category">
           <?php
@@ -65,7 +70,6 @@
         </select>
         <input id="SubmitCategory" type="submit">
       </form>
-
     </div>
 
     <?php
@@ -77,6 +81,9 @@
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $productName = test_input($_POST["productName"]);
+        $price = test_input($_POST["price"]);
+        $category = test_input($_POST["category"]);
+        $id = test_input($_POST["id"]);
       }
 
       function test_input($data) {
@@ -98,123 +105,57 @@
       // result
       $result = mysqli_query($dbc, $query);
 
+      // add new record if admin == mu
+      if ($_COOKIE['username'] == 'mu') {
+        echo "<form method='post' action='productAdd.php'><table class='center' id='productNameTable'>";
+        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Description</th><th>Category</th><th>Add</th>";
+        echo "<tr><td>" 
+          . "<input type='text' id='productName' name='productName'></td>"
+          . "<td>$<input type='text' id='price' name='price'></td>"
+          . "<td><input type='text' id='quantity' name='quantity'></td>"
+          . "<td><input type='text' id='description' name='description'></td>"
+          . "<td><select id='category' name='category'></option>
+              <option value='games'>games</option>
+              <option value='consoles'>consoles</option>
+              <option value='equipment'>equipment</option>
+            </td>"
+          . "<td><button type='submit' class='addToCart'>Add</button></form></td></tr>"
+          . "</table>";
+      }
+
+      // admin view
+      if ($_COOKIE['username'] == 'mu') {
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          echo "<br><div class='listcenter'><span class='coloredbox'></span>" . $row["productname"] . "<br>"
+          . "Price: $" . $row["price"] . "<br>"
+          . "In stock: " . $row["quantity"] . "<br>"
+          . "Category: " . $row["category"] . "<br>"
+          . "Description: " . $row["description"] . "<br>"
+          . "<form id='resultsForm' class='inline' method='post' action='productEdit.php'>
+          <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+          <button type='submit' class='addToCart'>Edit</button></form> 
+          <form id='resultsForm' class='inline' method='post' action='productDelete.php'>
+          <input name='prod_id' type='hidden' value='" . $row["id"] . "' />
+          <button type='submit' class='addToCart'>Delete</button></form></div>";
+        }
+      }
+      // guest view
+      else {
+        // results table
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          echo "<br><div class='listcenter'><span class='coloredbox'></span><form method='POST' action='cart.php'>"
+          . "<input   type='hidden' id='productname'  name='productname'  value='"  . $row["productname"]   . "'>" . $row["productname"] . "<br>" 
+          . "Price: $<input  type='hidden' id='price'        name='price'        value='"  . $row["price"]         . "'>" . $row["price"] . "<br>" 
+          . "In stock: " . $row["quantity"] . "<br>" 
+          . "Category: <input  type='hidden' id='category'     name='category'     value='"  . $row["category"]      . "'>" . $row["category"] . "<br>" 
+          . "Description: <input  type='hidden' id='description'  name='description'  value='"  . $row["description"]   . "'>" . $row["description"] . "<br>"  
+          . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
+          . "<button type='submit' class='addToCart'>Add</button></form></div>";
+        }
+      }
+
       // close db
       mysqli_close($dbc);
-
-      // add new record if admin == 1
-      if ("admin" == 1) {
-        echo "<form><table class='center' id='productNameTable'>";
-        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
-        echo "<tr><td>" 
-          . "<input type='text' id='productName' name='productName' value='" . $_GET['productName'] . "'></td>"
-          . "<td><input type='text' id='price' name='price' value='" . $_GET['price'] . "'></td>"
-          . "<td><input type='text' id='quantity' name='quantity' value='" . $_GET['quantity'] . "'></td>"
-          . "<td><input type='text' id='description' name='description' value='" . $_GET['description'] . "'></td>"
-          . "<td><select id='category' name='category' value='" . $_GET['category'] . "'></option><option value='games'>games</option><option value='consoles'>consoles</option><option value='equipment'>equipment</option></td>"
-          . "<td><form id='resultsForm' method='post' action='productEdit.php'>"
-          . "<input name='prod_id' type='hidden' value='" 
-          . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form>"
-          . "<form id='resultsForm' method='post' action='productEdit.php'>"
-          . "<input name='prod_id' type='hidden' value='" . $row["id"] . "' />"
-          . "<button type='submit' class='addToCart'>Delete</button></form> </td></tr>"
-          . "</table><button type='submit' class='addToCart'>Add</button></form>";
-          // if (!isempty($_GET['productName']) && !isempty($_GET['price']) && !isempty($_GET['quantity']) && !isempty($_GET['description']) && !isempty($_GET['category'])) {
-          //   $sql = "INSERT INTO products ($_GET['productName'], $_GET['price'], $_GET['quantity'], $_GET['description'], $_GET['category'])
-          //   VALUES ($_GET['productName'], $_GET['price'], $_GET['quantity'], $_GET['description'], $_GET['category'])";
-    
-          //   if ($conn->query($sql) === TRUE) {
-          //     echo "New record created successfully";
-          //   } else {
-          //     echo "Error: " . $sql . "<br>" . $conn->error;
-          //   }
-          // }
-      }
-
-      // search price results
-      require_once('mysqli_connect.php');
-      if (!empty($minPrice) && !empty($maxPrice)) {
-        // query
-        $query = "SELECT * FROM products WHERE price BETWEEN '$minPrice' AND '$maxPrice'";
-      
-        // result
-        $result = mysqli_query($dbc, $query);
-
-        // close db
-        // mysqli_close($dbc);
-
-        // results table
-        echo "<table class='center' id='productNameTable'>";
-        echo "<th>Price</th><th>Product Name</th><th>Quantity</th><th>Category</th><th>Description</th><th>Add to Cart</th>";
-        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-          echo "<tr><td>" . $row["price"] . "</td><td>" . $row["productname"] . "</td><td>" . $row["quantity"] . "</td><td>" . $row["category"] . "</td><td>" . $row["description"]  . "<td><form id='resultsForm' method='post' action='cart.php'><button type='submit' class='addToCart'>Purchase</button></form></td></tr>";
-        }
-        echo "</table>";
-      }
-      else {
-        echo "<h1 class='center'>You did not enter a valid price query</h1>";
-      }
-
-      // search name results
-      require_once('mysqli_connect.php');
-      if (!empty($productName)) {
-        // query
-        $query = "SELECT * FROM products WHERE productname LIKE '%$productName%'";
-      
-        // result
-        // $result = mysqli_query($dbc, $query);
-
-        // close db
-        // mysqli_close($dbc);
-
-        // results table
-        echo "<table class='center' id='productNameTable'>";
-        echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Add to Cart</th>";
-        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-          echo "<tr><td>" . $row["productname"] . "</td><td>" . $row["price"] . "</td><td>" . $row["quantity"] . "</td><td>" . $row["category"] . "</td><td>" . $row["description"]  . "<td><form id='resultsForm' method='post' action='cart.php'><button type='submit' class='addToCart'>Purchase</button></form></td></tr>";
-        }
-        echo "</table>";
-      }
-      else {
-        echo "<h1 class='center'>You did not enter a name</h1>";
-      }
-
-      // search category
-      require_once('mysqli_connect.php');
-      if (!empty($category)) {
-        // query
-        $query = "SELECT * FROM products WHERE category LIKE '%$category%'";
-      
-        // result
-        // $result = mysqli_query($dbc, $query);
-
-        // close db
-        // mysqli_close($dbc);
-
-        // results table
-        echo "<table class='center' id='productNameTable'>";
-        echo "<th>Category</th><th>Product Name</th><th>Price</th><th>Quantity</th><th>Description</th><th>Add to Cart</th>";
-        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-          echo "<tr><td>" . $row["category"] . "</td><td>" . $row["productname"] . "</td><td>" . $row["price"] . "</td><td>" . $row["quantity"] . "</td><td>" . $row["description"] . "</td><td><form id='resultsForm' method='post' action='cart.php'><button type='submit' class='addToCart'>Purchase</button></form></td></tr>";
-        }
-        echo "</table>";
-      }
-      // else {
-      //   echo "<h1 class='center'>You did not enter a category</h1>";
-      // }
-
-      // results table
-      echo "<table class='center' id='productNameTable'>";
-      echo "<th>Product Name</th><th>Price</th><th>Quantity</th><th>Category</th><th>Description</th><th>Edit</th>";
-      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo "<tr><td>" 
-        . $row["productname"] 
-        . "</td><td>" . $row["price"] 
-        . "</td><td>" . $row["quantity"] 
-        . "</td><td>" . $row["category"] 
-        . "</td><td>" . $row["description"]  
-        . "<td><form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Edit</button></form> <form id='resultsForm' method='post' action='productEdit.php'><input name='prod_id' type='hidden' value='" . $row["id"] . "' /><button type='submit' class='addToCart'>Delete</button></form> </td></tr>";
-      }
-      echo "</table>";
     ?>
   </body>
 </html>
