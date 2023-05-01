@@ -19,7 +19,8 @@
   </head>
   <body>
     <!-- Header -->
-    <h1 class="center">Hello <?php echo $_COOKIE['username']; ?></h1>
+    <div class="green center"><img src="../css/logo.png" class='logo' alt="Logo"></div>
+    <h1 class="center white">Hello <?php echo $_COOKIE['username']; ?></h1>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg topnav">
       <div class="container-fluid">
@@ -31,6 +32,11 @@
               <!-- Link -->
             <a class="list-anchor" href="logout.php">Logout</a>
           </li>
+          <li id="Logout"
+              class="col nav-item">
+              <!-- Link -->
+            <a class="list-anchor" href="productList.php">Search</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -39,11 +45,16 @@
       require_once('mysqli_connect.php');
 
       // sanitize
-      $productName = $price = $category = $prod_id = "";
+      $productName = $price = $category = $quantity = $description = "";
       $break = '<br>';
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $prod_id = test_input($_POST["prod_id"]);
+        $id = test_input($_POST["prod_id"]);
+        $price = test_input($_POST["price"]);
+        $category = test_input($_POST["category"]);
+        $productName = test_input($_POST["productName"]);
+        $quantity = test_input($_POST["quantity"]);
+        $description = test_input($_POST["description"]);
       }
 
       function test_input($data) {
@@ -60,29 +71,20 @@
       }
       
       // query
-      $query = "SELECT * FROM products WHERE id = '" . $prod_id . "'";
-    
+      $query = "UPDATE products SET productname='$productName', price='$price', quantity='$quantity', category='$category', description='$description' WHERE id='$id'";
+
+      echo "<br><h1 class='center white'>Product Updated</h1><br><br>"
+        . "<div class='listcenter white'><h2>" . $productName . "<br>"
+        . "Price: $" . $price . "<br>"
+        . "In stock: " . $quantity . "<br>"
+        . "Category: " . $category . "<br>"
+        . "Description: " . $description . "<h2></div>";
+
       // result
       $result = mysqli_query($dbc, $query);
 
       // close db
       mysqli_close($dbc);
-
-      // form
-      ?><form action="productUpdate.php">        
-      <?php
-      // results table
-      echo "<table class='center' id='productNameTable'>";
-
-      while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-        echo "<tr><td>Product Name</td><td><input type='text' id='productName' name='productName' value='" . $row["productname"] . "'></td></tr>";
-        echo "<tr><td>Price</td><td><input type='text' id='price' name='price' value='" . $row["price"] . "'></td></tr>";
-        echo "<tr><td>Quantity</td><td><input type='text' id='quantity' name='quantity' value='" . $row["quantity"] . "'></td></tr>";
-        echo "<tr><td>Category</td><td><select id='category' name='category' value='" . $row["category"] . " <option value='games'>games</option><option value='consoles'>consoles</option><option value='equipment'>equipment</option>'></td></tr>";
-        echo "<tr><td>Description</td><td><input type='text' id='description' name='description' value='" . $row["description"] . "'></td></tr>";
-        echo "<input type='hidden' name='" . $row["id"] . "' />";
-      }
-      echo "</table> <submit type='submit' method='POST'></form>";
     ?>
   </body>
 </html>
