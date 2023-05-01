@@ -72,18 +72,24 @@ body nav div ul li a:hover {
 body {
   background-color: rgb(0, 0, 0);
 }
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
 h1 {
-  margin-top: 40px;
-  color: white;
+  /* margin-top: 40px; */
+  /* color: white; */
   font-family: 'Mukta', sans-serif;
   font-size: 30pt;
 }
-img {
-  float: right;
-  padding: 10px;
-  border-radius: 10px;
-  width: 16em;
-  height: 14em;
+h2 {
+  font-family: 'Mukta', sans-serif;
+  font-size: 20pt;
 }
 td {
   border: 1px solid rgb(168, 168, 168);
@@ -114,6 +120,9 @@ ul {
   border-radius: 10px;
   padding-top: 10px;
 }
+.black {
+  color: black;
+}
 .center {
   text-align: center;
   margin-left: auto;
@@ -125,6 +134,11 @@ ul {
   width: 100px;
   height: 100px;
   background: red;
+}
+.dongle {
+  font-family: 'Dongle', sans-serif;
+  font-size: 20pt;
+  color: white;
 }
 .error {
   background-color: #ff0000;
@@ -148,11 +162,19 @@ ul {
   font-family: 'Dongle', sans-serif;
   font-size: 20pt;
 }
+.green {
+  width: 100%;
+  height: 50px;
+  background: rgb(40, 151, 25);
+}
 .grid-container {
   display: grid;
   gap: 10px;
   grid-gap: 20px;
   grid-template-columns: auto auto auto;
+}
+.inline {
+  display: inline;
 }
 .left-align {
   text-align: left;
@@ -167,7 +189,7 @@ ul {
   font-size: 18pt;
 }
 .listcenter {
-  margin-left: 30%;
+  margin-left: 35%;
 }
 .login {
   background-color: rgb(25, 141, 2);
@@ -176,6 +198,9 @@ ul {
   border-radius: 5px;
   padding: 7px;
   font-family: 'Mukta', sans-serif;
+}
+.logo {
+  height: 50px;
 }
 .main-div {
   border: 1px solid white;
@@ -217,6 +242,15 @@ ul {
   border-top: 2px solid rgb(211, 211, 211);
   border-bottom: 2px solid rgb(211, 211, 211);
 }
+.toppadding {
+  padding-top: 20px;
+}
+.verticallycenter {
+  top: 50%;
+}
+.white {
+  color: white;
+}
 /* ************************************ */
 /* IDs */
 #Index {
@@ -249,10 +283,8 @@ ul {
 /* Form */
 form {
   color: white;
-  background-color: rgb(0, 0, 0);
   padding: 15px;
   border-radius: 5px;
-  margin-bottom: 40px;
   font-family: 'Dongle', sans-serif;
   font-size: 20pt;
 }
@@ -279,6 +311,7 @@ input:focus, input:hover {
   cursor: pointer;
 }
 .addToCart {
+  color:rgb(241, 147, 5);
   padding-top:5px;
   font-family: 'Dongle', sans-serif;
   font-size: 20pt !important;
@@ -298,7 +331,7 @@ th {
 }
 #resultsForm {
   color: white;
-  background-color: rgb(40, 151, 25);
+  /* background-color: rgb(40, 151, 25); */
   padding: 15px;
   font-family: 'Dongle', sans-serif;
   font-size: 20pt;
