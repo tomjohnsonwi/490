@@ -32,6 +32,8 @@
               class="col nav-item">
               <!-- Link -->
             <a class="list-anchor" href="logout.php">Logout</a>
+            <a class="list-anchor" href="about.php">About</a>
+            <a class="list-anchor" href="contact.php">Contact</a>
           </li>
         </ul>
       </div>
@@ -39,14 +41,14 @@
 
     <div class="form-div">
       <!-- Product Name -->
-      <form action="nameSearch.php" method="POST">
+      <form action="nameSearch.php" method="POST" class="form1">
         <label for="productName">Search by name:</label>
         <input type="text" id="productName" name="productName">
         <input id="SubmitName" type="submit">
       </form>
 
       <!-- Price -->
-      <form action="priceSearch.php" method="POST">
+      <form action="priceSearch.php" method="POST" class="form2">
         <label for="price">Search by price, between:</label>
         <span>$ </span><input class="inputselect" type="number" id="minPrice" name="minPrice" min="0" max="500" step="50" onkeydown="return false">
         and $
@@ -56,7 +58,7 @@
       </form>
 
       <!-- Category -->
-      <form action="categorySearch.php" method="POST">
+      <form action="categorySearch.php" method="POST" class="form3">
         <label for="category">Search by category:</label>
         <select name="category" id="category">
           <?php
