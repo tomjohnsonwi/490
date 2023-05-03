@@ -50,7 +50,7 @@
       <br>
 
       <!-- submit -->
-      <input id="Submit" type="submit">
+      <input id="Submit1" type="submit">
       <label></label>
       <br><br>
     </form>
